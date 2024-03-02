@@ -7,6 +7,7 @@ import (
 	db "simplebank/db/sqlc"
 	"simplebank/util"
 
+	_ "github.com/golang/mock/mockgen/model"
 	_ "github.com/lib/pq"
 )
 
