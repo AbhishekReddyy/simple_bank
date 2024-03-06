@@ -20,17 +20,10 @@ import (
 func randomAccount() db.Accounts {
 	return db.Accounts{
 		ID:       util.RandomInt(1, 1000),
-		Owner:    util.RandomOwener(),
+		Owner:    util.RandomOwner(),
 		Balance:  util.RandomMoney(),
 		Currency: util.RandomCurrency(),
 	}
-}
-
-func mockForTest(t *testing.T) *mockdb.MockStore {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	return mockdb.NewMockStore(ctrl)
 }
 
 func TestGetAccountAPI(t *testing.T) {
