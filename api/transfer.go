@@ -10,8 +10,8 @@ import (
 )
 
 type transferRequest struct {
-	FromAccountID int64  `json:"from" binding:"required, min=1"`
-	ToAccountID   int64  `json:"to" binding:"required, min=1"`
+	FromAccountID int64  `json:"from" binding:"required,min=1"`
+	ToAccountID   int64  `json:"to" binding:"required,min=1"`
 	Amount        int64  `json:"amount" binding:"required,gt=0"`
 	Currency      string `json:"currency" binding:"required,currency"`
 }
@@ -56,7 +56,7 @@ func (server *Server) validateAccount(ctx *gin.Context, accountID int64, currenc
 		return false
 	}
 
-	if account.Currency == currency {
+	if account.Currency != currency {
 		err := fmt.Errorf("account [%d] currency missmatch: %s vs %s", account.ID, account.Currency, currency)
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return false

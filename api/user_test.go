@@ -176,7 +176,7 @@ func TestCreateUserAPI(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			store := mockForTest(t)
 			tc.buildStubs(store)
-			server := NewServer(store)
+			server := NewTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			data, err := json.Marshal(tc.body)

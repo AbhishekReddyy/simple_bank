@@ -14,7 +14,8 @@ type PasetoMaker struct {
 }
 
 func NewPasetoMaker() Maker {
-	return &PasetoMaker{paseto.NewV4SymmetricKey(), []byte("my implicit nonce")}
+	secretKey := paseto.NewV4SymmetricKey()
+	return &PasetoMaker{secretKey, []byte("my implicit nonce")}
 }
 
 func (maker *PasetoMaker) CreateToken(username string, duration time.Duration) (string, error) {
@@ -29,7 +30,12 @@ func (maker *PasetoMaker) CreateToken(username string, duration time.Duration) (
 	token.Set("username", username)
 	token.SetIssuedAt(time.Now())
 	token.SetExpiration(time.Now().Add(duration))
-	return token.V4Encrypt(maker.secretKey, maker.implicit), nil
+	encryptedToken := token.V4Encrypt(maker.secretKey, maker.implicit)
+	if err != nil {
+		return "", err
+	}
+
+	return encryptedToken, nil
 }
 
 func (maker *PasetoMaker) VerifyToken(token string) (*Payload, error) {
